@@ -32,7 +32,7 @@ export default {
         var scale_x = d3.scaleLinear().domain([0, this.data.length - 1]).range([0, 300]); //线性缩放 domain是输入值 range是输出值
         var scale_y = d3.scaleLinear().domain([0, d3.max(this.data)]).range([200, 0]);
         // // 第一种添加网格方法
-        // //竖线  
+        // //竖线
         // var grid_x = svg.selectAll(".grid")
         //     .data(scale_x.ticks(this.data.length)) //生成刻度 参数是几个就生成几个刻度
         //     .enter().append("g")
@@ -77,8 +77,8 @@ export default {
             return scale_y(d);
         }).curve(d3.curveCardinal);
         //创建渐变色
-        var a = d3.rgb(255, 0, 0); //红色  
-        var b = d3.rgb(255, 0, 0); //绿色  
+        var a = d3.rgb(255, 0, 0); //红色
+        var b = d3.rgb(255, 0, 0); //绿色
         //生成渐变色对象用来给area填充
         var linearGradient = svg.append("linearGradient")
             .attr("id", "linearColor")
@@ -100,7 +100,7 @@ export default {
         //插入线条
         var path = g.append("path").attr("d", area(this.data)).attr("class", "dataline").attr("stroke", "steelblue").attr("fill", "url(#linearColor)").attr("stroke-width", "2").style("clip-path", "url(#clipPath)");
         //插入坐标轴
-        var axisY = g.append("g").call(d3.axisLeft(scale_y).tickSize(0, 0, 0).ticks(this.data.length)).append("text").text("Price($)").attr("fill", "red").attr("transform", "rotate(-90)").attr("text-anchor", "end").attr("dy", "1em").style("font-size", "16"); //新建一个g做轴用 
+        var axisY = g.append("g").call(d3.axisLeft(scale_y).tickSize(0, 0, 0).ticks(this.data.length)).append("text").text("Price($)").attr("fill", "red").attr("transform", "rotate(-90)").attr("text-anchor", "end").attr("dy", "1em").style("font-size", "16"); //新建一个g做轴用
         var axisX = g.append("g").attr("transform", "translate(0,200)").call(d3.axisBottom(scale_x).ticks(this.data.length));
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         var rect_h = 50;
@@ -329,37 +329,7 @@ export default {
             d.fy = null;
         }
 
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        var width = 1000;
-        var height = 1000;
-        var svg = d3.select("#container5").append("svg").attr("width", width).attr("height", height);
-        var rect1 = svg.append("rect").attr("width", 90).attr("height", 160).attr("x", width / 2).attr("y", height / 2).style("fill", "#ccc").style("stroke", "#ccc");
-        var drag = d3.drag().on("start", rect_start).on("drag", rect_drag).on("end", rect_end);
-        rect1.call(drag);
-        var data = [{x:0,y:60},{x:30,y:30},{x:60,y:90}]
-        var offsetX, offsetY;
-        var line = d3.line().x((d,i)=>{return d.x}).y((d,i)=>{return d.y}).curve(d3.curveStep);
-        var path = svg.append("path").attr("d",()=>{
-            return line(data)
-        }).attr("fill","none").attr("stroke","#000");
-        function rect_start() {
-            offsetX = d3.event.x - d3.select(this).attr("x");
-            offsetY = d3.event.y - d3.select(this).attr("y");
-        }
 
-        function rect_drag() {
-
-            d3.select(this).attr("x", d3.event.x - offsetX).attr("y", d3.event.y - offsetY);
-
-        }
-
-        function rect_end() {
-            d3.select(this).classed("active", false);
-        }
-
-        function render() {
-            console.log("a")
-        }
 
     },
 }
